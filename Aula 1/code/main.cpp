@@ -32,38 +32,81 @@ static void printMenu(void)
 /* menu handling functions */
 /* ******************************************** */
 
-void menuChoiceAppend()
-{
+void menuChoiceAppend() {
+    uint32_t nmec;
+    char name[100]; 
+    printf("Enter student's NMEC: ");
+    int res = scanf("%u", &nmec);
+    if (res != 1) {
+        fprintf(stderr, "Wrong input format (unsigned integer number required)\n");
+        scanf("%*s"); 
+        return;
+    }
+
+    printf("Enter student's name: ");
+    scanf(" %99[^\n]", name); 
+
+    list = append(list, nmec, name);
+    printf("Student added to the list.\n");
 }
 
-/* ******************************************** */
-
-void menuChoicePrint()
-{
-}
+void menuChoicePrint() {
+    printf("Student List:\n");
+    print(list);
 
 /* ******************************************** */
 
 void menuChoiceRemove()
 {
+   uint32_t nmec;
+    printf("Enter the NMEC of the student to remove: ");
+    int res = scanf("%u", &nmec);
+    if (res != 1) {
+        fprintf(stderr, "Wrong input format (unsigned integer number required)\n");
+        scanf("%*s"); 
+        return;
+    }
+
+    list = remove(list, nmec); 
+    printf("Student removed from the list.\n");
 }
 
 /* ******************************************** */
 
 void menuChoiceSearch()
 {
+   uint32_t nmec;
+    printf("Enter the NMEC of the student to search for: ");
+    int res = scanf("%u", &nmec);
+    if (res != 1) {
+        fprintf(stderr, "Wrong input format (unsigned integer number required)\n");
+        scanf("%*s"); 
+        return;
+   }
+
+    const char* name = search(list, nmec); 
+    if (name != NULL) {
+        printf("Student found: Name: %s\n", name);
+    } else {
+        printf("Student not found.\n");
+    }
 }
 
 /* ******************************************** */
 
 void menuChoiceSortByName()
 {
+   list = sort_by_name(list); 
+    printf("List sorted by name.\n");
+
 }
 
 /* ******************************************** */
 
 void menuChoiceSortByNumber()
 {
+   list = sort_by_number(list); 
+    printf("List sorted by number.\n");
 }
 
 /* ******************************************** */
